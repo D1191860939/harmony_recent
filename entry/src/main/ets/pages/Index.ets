@@ -13,9 +13,8 @@ struct Index {
     Tabs() {
       TabContent() {
         Home()
-      }.tabBar(this.tabBarBuilder(0, "首页", $r('app.media.tabbar_home'), $r('app.media.tabbar_home_active')))
-      .clip(false)
-      .expandSafeArea([SafeAreaType.SYSTEM])
+      }
+      .tabBar(this.tabBarBuilder(0, "首页", $r('app.media.tabbar_home'), $r('app.media.tabbar_home_active')))
 
       TabContent() {
         See()
@@ -35,8 +34,6 @@ struct Index {
     }
     .barPosition(BarPosition.End)
     .barHeight(50)
-    .clip(false)
-    .expandSafeArea([SafeAreaType.SYSTEM])
     .onChange((index: number) => {
         this.currentTabIndex = index;
     })

@@ -1,5 +1,5 @@
 // Basic implementation of IDataSource to handle data listener
-class BaseDataSource<T> implements IDataSource {
+export class BaseDataSource<T> implements IDataSource {
   private listeners: DataChangeListener[] = [];
   private dataArray: T[] = [];
 

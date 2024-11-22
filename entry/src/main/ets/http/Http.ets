@@ -2,7 +2,8 @@ import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from '@o
 
 
 const request = axios.create({
-  baseURL: 'http://192.168.1.15:6060',
+  // baseURL: 'http://192.168.1.15:6060',
+  baseURL: 'http://192.168.72.148:6060',
   timeout: 20 * 1000,
 })
 
