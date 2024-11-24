@@ -1,5 +1,6 @@
 import { getHomeApiData } from '../http/HomeApi';
 import { SwiperDataSource } from '../lazyds/home/SwiperDataSource';
+import { SearchBar } from '../views/home/SearchBar';
 import { SwiperLayout } from '../views/home/SwiperLayout';
 
 /**
@@ -20,13 +21,20 @@ export struct Home {
   }
 
   build() {
-    Scroll() {
-      Column() {
-        SwiperLayout({ bannerDataSource: this.swiperDataSource })
+    Stack() {
+      Scroll() {
+        Column() {
+          SwiperLayout({ bannerDataSource: this.swiperDataSource })
+        }
       }
+      .width("100%")
+      .height("100%")
+      .align(Alignment.TopStart)
+
+      SearchBar()
     }
     .width("100%")
     .height("100%")
-    .align(Alignment.TopStart)
+    .alignContent(Alignment.TopStart)
   }
 }
