@@ -26,7 +26,6 @@ export struct NavList {
     .width("100%")
     .rowsGap(14)
     .columnsGap(32)
-    .padding({ left: 16, right: 16 })
     .columnsTemplate("1fr 1fr 1fr 1fr")
   }
 }

@@ -11,6 +11,7 @@ export default struct TileList {
           Image(tileItem.imageURL)
             .width("100%")
             .height(58)
+            .borderRadius(8)
 
           Row({space: 5}) {
             Text(tileItem.title)
@@ -29,6 +30,5 @@ export default struct TileList {
         .alignItems(HorizontalAlign.Start)
       }, (tileItem: ITileItem) => tileItem.id.toString())
     }
-    .padding({ left: 16, right: 16 })
   }
 }

@@ -2,6 +2,8 @@ export interface IHomePageData {
   bannerList: IBannerData[];
   navList: INavItem[];
   tileList: ITileItem[];
+  planList: IPlanItem[];
+  adPicture: string;
 }
 
 export interface IBannerData {
@@ -21,4 +23,9 @@ export interface ITileItem {
   "imageURL": string;
   "title": string;
   "sub_title": string;
+}
+
+export interface IPlanItem {
+  "id": number,
+  "imageURL": string
 }
