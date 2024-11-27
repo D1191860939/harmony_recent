@@ -29,3 +29,18 @@ export interface IPlanItem {
   "id": number,
   "imageURL": string
 }
+
+export interface IRecommendRoomItemData {
+  "id": string,
+  "housePicture": string,
+  "tags": IRecommendItemTag[]
+  "houseTitle": string,
+  "address": string,
+  "rentPriceUnit": string,
+  "rentPriceListing": string,
+  "rentArea": string
+}
+
+export interface IRecommendItemTag {
+  name: string
+}

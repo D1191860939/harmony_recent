@@ -5,6 +5,7 @@ import { INavItem, IPlanItem, ITileItem } from '../model/HomePageData';
 import { AdCard } from '../views/home/AdCard';
 import { NavList } from '../views/home/NavList';
 import { PlanList } from '../views/home/PlanList';
+import { RecommendRoom } from '../views/home/RecommendRoom';
 import { SearchBar } from '../views/home/SearchBar';
 import { SwiperLayout } from '../views/home/SwiperLayout';
 import TileList from '../views/home/TileList';
@@ -54,6 +55,10 @@ export struct Home {
           .width("100%")
           .backgroundColor($r("app.color.white"))
           .padding({ left: PADDING, right: PADDING })
+
+          // 推荐房源
+          RecommendRoom()
+            .margin({top : 8})
         }
       }
       .width("100%")
