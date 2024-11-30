@@ -1,7 +1,9 @@
+import { ScrollContainer } from '../components/ScrollContainer';
 import { PADDING } from '../constants/Size';
 import { getHomeApiData } from '../http/HomeApi';
 import { SwiperDataSource } from '../lazyds/home/SwiperDataSource';
 import { INavItem, IPlanItem, ITileItem } from '../model/HomePageData';
+import { INavColor } from '../model/INavColor';
 import { AdCard } from '../views/home/AdCard';
 import { NavList } from '../views/home/NavList';
 import { PlanList } from '../views/home/PlanList';
@@ -9,9 +11,6 @@ import { RecommendRoom } from '../views/home/RecommendRoom';
 import { SearchBar } from '../views/home/SearchBar';
 import { SwiperLayout } from '../views/home/SwiperLayout';
 import TileList from '../views/home/TileList';
-
-// toolbar 滑动渐变总距离
-const TOOLBAR_GRADIENT_OFFSET = 80
 
 /**
  * 首页 tab
@@ -23,9 +22,6 @@ export struct Home {
   @State tileList: ITileItem[] = []
   @State planList: IPlanItem[] = []
   @State adPicture: string = ""
-  @State toolbarBgColor: ResourceColor = Color.Transparent
-  @State toolbarFontColor: ResourceColor = Color.White
-  private scroller = new Scroller()
 
   async getHomeData() {
     const homePageData = await getHomeApiData();
@@ -42,53 +38,42 @@ export struct Home {
   }
 
   build() {
-    Stack() {
-      Scroll(this.scroller) {
-        Column() {
-          // 轮播图
-          SwiperLayout({ bannerDataSource: this.swiperDataSource })
-          Column() {
-            // 金刚圈快速入口
-            NavList({ navList: this.navList })
-              .margin({ top: 24 })
-            TileList({ tileList: this.tileList })
-              .margin({ top: 10 })
-            PlanList({ planList: this.planList })
-              .margin({ top: 18 })
-            AdCard({ adPicture: this.adPicture })
-              .margin({ top: 9 })
-          }
-          .width("100%")
-          .backgroundColor($r("app.color.white"))
-          .padding({ left: PADDING, right: PADDING })
-
-          // 推荐房源
-          RecommendRoom()
-            .margin({ top: 8 })
-        }
-      }
-      .width("100%")
-      .height("100%")
-      .align(Alignment.TopStart)
-      .onDidScroll(() => {
-        this.updateToolbarColor();
-      })
-
-      SearchBar({ bgColor: this.toolbarBgColor, fontColor: this.toolbarFontColor })
-    }
-    .width("100%")
-    .height("100%")
-    .alignContent(Alignment.TopStart)
+    ScrollContainer({
+      contentBuilder: () => {
+        this.contentBuilder()
+      },
+      navBuilder: this.navBuilder
+    })
   }
 
-  private updateToolbarColor() {
-    let offset = this.scroller.currentOffset();
-    let alpha = Math.min(offset.yOffset / TOOLBAR_GRADIENT_OFFSET, 1);
-    this.toolbarBgColor = `rgba(255, 255, 255, ${alpha})`;
-    if (alpha <= 0.05) {
-      this.toolbarFontColor = Color.White;
-    } else if (alpha >= 0.95) {
-      this.toolbarFontColor = Color.Black;
+  @Builder
+  contentBuilder() {
+    Column() {
+      // 轮播图
+      SwiperLayout({ bannerDataSource: this.swiperDataSource })
+      Column() {
+        // 金刚圈快速入口
+        NavList({ navList: this.navList })
+          .margin({ top: 24 })
+        TileList({ tileList: this.tileList })
+          .margin({ top: 10 })
+        PlanList({ planList: this.planList })
+          .margin({ top: 18 })
+        AdCard({ adPicture: this.adPicture })
+          .margin({ top: 9 })
+      }
+      .width("100%")
+      .backgroundColor($r("app.color.white"))
+      .padding({ left: PADDING, right: PADDING })
+
+      // 推荐房源
+      RecommendRoom()
+        .margin({ top: 8 })
     }
+  }
+
+  @Builder
+  navBuilder($$: INavColor) {
+    SearchBar({ bgColor: $$.bgColor, fontColor: $$.fontColor })
   }
 }

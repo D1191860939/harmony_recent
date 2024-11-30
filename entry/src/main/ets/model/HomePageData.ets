@@ -1,3 +1,5 @@
+// 首页数据
+
 export interface IHomePageData {
   bannerList: IBannerData[];
   navList: INavItem[];
