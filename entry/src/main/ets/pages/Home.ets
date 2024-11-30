@@ -10,6 +10,9 @@ import { SearchBar } from '../views/home/SearchBar';
 import { SwiperLayout } from '../views/home/SwiperLayout';
 import TileList from '../views/home/TileList';
 
+// toolbar 滑动渐变总距离
+const TOOLBAR_GRADIENT_OFFSET = 80
+
 /**
  * 首页 tab
  */
@@ -20,6 +23,9 @@ export struct Home {
   @State tileList: ITileItem[] = []
   @State planList: IPlanItem[] = []
   @State adPicture: string = ""
+  @State toolbarBgColor: ResourceColor = Color.Transparent
+  @State toolbarFontColor: ResourceColor = Color.White
+  private scroller = new Scroller()
 
   async getHomeData() {
     const homePageData = await getHomeApiData();
@@ -37,7 +43,7 @@ export struct Home {
 
   build() {
     Stack() {
-      Scroll() {
+      Scroll(this.scroller) {
         Column() {
           // 轮播图
           SwiperLayout({ bannerDataSource: this.swiperDataSource })
@@ -58,17 +64,31 @@ export struct Home {
 
           // 推荐房源
           RecommendRoom()
-            .margin({top : 8})
+            .margin({ top: 8 })
         }
       }
       .width("100%")
       .height("100%")
       .align(Alignment.TopStart)
+      .onDidScroll(() => {
+        this.updateToolbarColor();
+      })
 
-      SearchBar()
+      SearchBar({ bgColor: this.toolbarBgColor, fontColor: this.toolbarFontColor })
     }
     .width("100%")
     .height("100%")
     .alignContent(Alignment.TopStart)
+  }
+
+  private updateToolbarColor() {
+    let offset = this.scroller.currentOffset();
+    let alpha = Math.min(offset.yOffset / TOOLBAR_GRADIENT_OFFSET, 1);
+    this.toolbarBgColor = `rgba(255, 255, 255, ${alpha})`;
+    if (alpha <= 0.05) {
+      this.toolbarFontColor = Color.White;
+    } else if (alpha >= 0.95) {
+      this.toolbarFontColor = Color.Black;
+    }
   }
 }

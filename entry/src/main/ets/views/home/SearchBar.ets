@@ -1,9 +1,12 @@
 @Component
 export struct SearchBar {
+  @Prop bgColor: ResourceColor
+  @Prop fontColor: ResourceColor
+
   build() {
     Row({ space: 16 }) {
       Text("北京")
-        .fontColor($r('app.color.white'))
+        .fontColor(this.fontColor)
         .fontSize(14)
 
       Row() {
@@ -41,6 +44,7 @@ export struct SearchBar {
       Image($r('app.media.message'))
         .width(24)
         .height(24)
+        .fillColor(this.fontColor)
     }
     .width("100%")
     .height(48)
@@ -50,5 +54,6 @@ export struct SearchBar {
       left: 16,
       right: 16
     })
+    .backgroundColor(this.bgColor)
   }
 }
