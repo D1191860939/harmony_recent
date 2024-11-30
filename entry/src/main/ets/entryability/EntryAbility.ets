@@ -1,6 +1,7 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { StorageKey } from '../constants/StorageKey';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -11,7 +12,7 @@ export default class EntryAbility extends UIAbility {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
   }
 
-  onWindowStageCreate(windowStage: window.WindowStage): void {
+  async onWindowStageCreate(windowStage: window.WindowStage) {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
@@ -22,6 +23,19 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
     });
+
+    const windowClass = await windowStage.getMainWindow()
+    // 设置全屏
+    windowClass.setWindowLayoutFullScreen(true)
+    // 设置状态栏颜色
+    windowClass.setWindowSystemBarProperties({
+      statusBarContentColor: "#FFFFFFFF",
+      navigationBarContentColor: "#FFFFFFFF"
+    })
+    // 获取状态栏高度并存储起来
+    const avoidArea = windowClass.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM)
+    AppStorage.setOrCreate(StorageKey.STATUSBAR_HEIGHT.valueOf(), avoidArea.topRect.height)
+    AppStorage.setOrCreate(StorageKey.NAV_BOTTOM_HEIGHT.valueOf(), avoidArea.bottomRect.height)
   }
 
   onWindowStageDestroy(): void {

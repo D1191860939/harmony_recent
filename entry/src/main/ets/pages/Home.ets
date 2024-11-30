@@ -4,6 +4,7 @@ import { getHomeApiData } from '../http/HomeApi';
 import { SwiperDataSource } from '../lazyds/home/SwiperDataSource';
 import { INavItem, IPlanItem, ITileItem } from '../model/HomePageData';
 import { INavColor } from '../model/INavColor';
+import { getWindowTopHeight } from '../utils/SystemUtil';
 import { AdCard } from '../views/home/AdCard';
 import { NavList } from '../views/home/NavList';
 import { PlanList } from '../views/home/PlanList';
@@ -67,13 +68,13 @@ export struct Home {
       .padding({ left: PADDING, right: PADDING })
 
       // 推荐房源
-      RecommendRoom()
-        .margin({ top: 8 })
+      RecommendRoom().margin({ top: 8 })
     }
   }
 
   @Builder
   navBuilder($$: INavColor) {
     SearchBar({ bgColor: $$.bgColor, fontColor: $$.fontColor })
+      .margin({ top: getWindowTopHeight() })
   }
 }

@@ -1,4 +1,5 @@
 import { INavColor } from '../model/INavColor';
+import { window } from '@kit.ArkUI';
 
 // toolbar 滑动渐变总距离
 const TOOLBAR_GRADIENT_OFFSET = 80
@@ -7,9 +8,23 @@ const TOOLBAR_GRADIENT_OFFSET = 80
 export struct ScrollContainer {
   @BuilderParam contentBuilder: () => void
   @BuilderParam navBuilder: ($$: INavColor) => void
-  @State toolbarBgColor: ResourceColor = Color.Transparent
-  @State toolbarFontColor: ResourceColor = Color.White
+  @State toolbarBgColor: string = `rgba(255, 255, 255, 0)`
+  @State toolbarFontColor: string = `rgba(255, 255, 255, 1)`
   private scroller = new Scroller()
+  setWindowStatusColor = async (offsetPercent: number) => {
+    const windowClass = await window.getLastWindow(getContext())
+    this.checkOffset(offsetPercent, () => {
+      windowClass.setWindowSystemBarProperties({
+        statusBarColor: "#FFFFFF",
+        navigationBarColor: "#FFFFFF"
+      })
+    }, () => {
+      windowClass.setWindowSystemBarProperties({
+        statusBarColor: "#000000",
+        navigationBarColor: "#000000"
+      })
+    })
+  }
 
   build() {
     Stack() {
@@ -20,7 +35,7 @@ export struct ScrollContainer {
       .height("100%")
       .align(Alignment.TopStart)
       .onDidScroll(() => {
-        this.updateToolbarColor();
+        this.onScroll();
       })
       .scrollBar(BarState.Off)
       .backgroundColor($r('app.color.bg_gray_second'))
@@ -32,14 +47,26 @@ export struct ScrollContainer {
     .alignContent(Alignment.TopStart)
   }
 
-  private updateToolbarColor() {
-    let offset = this.scroller.currentOffset();
-    let alpha = Math.min(offset.yOffset / TOOLBAR_GRADIENT_OFFSET, 1);
-    this.toolbarBgColor = `rgba(255, 255, 255, ${alpha})`;
-    if (alpha <= 0.05) {
-      this.toolbarFontColor = Color.White;
-    } else if (alpha >= 0.95) {
-      this.toolbarFontColor = Color.Black;
+  private onScroll() {
+    const offsetPercent = Math.min(this.scroller.currentOffset().yOffset / TOOLBAR_GRADIENT_OFFSET, 1);
+    this.updateToolbarColor(offsetPercent);
+    this.setWindowStatusColor(offsetPercent);
+  }
+
+  private updateToolbarColor(offsetPercent: number) {
+    this.toolbarBgColor = `rgba(255, 255, 255, ${offsetPercent})`;
+    this.checkOffset(offsetPercent, () => {
+      this.toolbarFontColor = `rgba(255, 255, 255, 1)`;
+    }, () => {
+      this.toolbarFontColor = `rgba(0, 0, 0, 1)`
+    })
+  }
+
+  private checkOffset(offsetPercent: number, reachTop: () => void, reachEnd: () => void) {
+    if (offsetPercent <= 0.05) {
+      reachTop()
+    } else if (offsetPercent >= 0.95) {
+      reachEnd()
     }
   }
 }
