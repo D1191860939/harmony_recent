@@ -75,6 +75,5 @@ export struct Home {
   @Builder
   navBuilder($$: INavColor) {
     SearchBar({ bgColor: $$.bgColor, fontColor: $$.fontColor })
-      .margin({ top: getWindowTopHeight() })
   }
 }

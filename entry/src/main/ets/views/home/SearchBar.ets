@@ -1,3 +1,5 @@
+import { getWindowTopHeight } from "../../utils/SystemUtil"
+
 @Component
 export struct SearchBar {
   @Prop bgColor: ResourceColor
@@ -47,9 +49,9 @@ export struct SearchBar {
         .fillColor(this.fontColor)
     }
     .width("100%")
-    .height(48)
+    .height(48 + getWindowTopHeight())
     .padding({
-      top: 4,
+      top: 4 + getWindowTopHeight(),
       bottom: 4,
       left: 16,
       right: 16

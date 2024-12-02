@@ -15,13 +15,13 @@ export struct ScrollContainer {
     const windowClass = await window.getLastWindow(getContext())
     this.checkOffset(offsetPercent, () => {
       windowClass.setWindowSystemBarProperties({
-        statusBarColor: "#FFFFFF",
-        navigationBarColor: "#FFFFFF"
+        statusBarColor: "#00FFFFFF",
+        statusBarContentColor: "#FFFFFFFF"
       })
     }, () => {
       windowClass.setWindowSystemBarProperties({
-        statusBarColor: "#000000",
-        navigationBarColor: "#000000"
+        statusBarColor: "#FFFFFFFF",
+        statusBarContentColor: "#FF000000"
       })
     })
   }
