@@ -6,8 +6,8 @@ const TOOLBAR_GRADIENT_OFFSET = 80
 
 @Component
 export struct ScrollContainer {
-  @BuilderParam contentBuilder: () => void
-  @BuilderParam navBuilder: ($$: INavColor) => void
+  @BuilderParam contentBuilder: () => void = this.customBuilder
+  @BuilderParam navBuilder: ($$: INavColor) => void = this.customBuilder
   @State toolbarBgColor: string = `rgba(255, 255, 255, 0)`
   @State toolbarFontColor: string = `rgba(255, 255, 255, 1)`
   private scroller = new Scroller()
@@ -24,6 +24,10 @@ export struct ScrollContainer {
         statusBarContentColor: "#FF000000"
       })
     })
+  }
+
+  @Builder customBuilder() {
+
   }
 
   build() {
