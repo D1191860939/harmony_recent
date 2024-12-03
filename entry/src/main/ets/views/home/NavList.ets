@@ -1,4 +1,4 @@
-import { INavItem } from '../../model/HomePageData'
+import { INavItem } from '../../http/response/HomePageData'
 
 @Component
 export struct NavList {

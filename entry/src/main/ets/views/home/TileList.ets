@@ -1,4 +1,4 @@
-import { ITileItem } from "../../model/HomePageData"
+import { ITileItem } from "../../http/response/HomePageData"
 
 @Component
 export default struct TileList {

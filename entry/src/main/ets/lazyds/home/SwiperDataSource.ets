@@ -1,4 +1,4 @@
-import { IBannerData } from '../../model/HomePageData';
+import { IBannerData } from '../../http/response/HomePageData';
 import { BaseDataSource } from '../BaseDataSource';
 
 @Observed

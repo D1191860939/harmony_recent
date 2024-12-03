@@ -1,5 +1,5 @@
-import { IHomePageData, IRecommendRoomItemData } from "../model/HomePageData";
-import { http } from "./Index";
+import { IHomePageData, IRecommendRoomItemData } from "../response/HomePageData";
+import { http } from "../Index";
 
 /**
  * 获取首页数据

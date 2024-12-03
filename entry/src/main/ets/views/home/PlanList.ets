@@ -1,4 +1,4 @@
-import { IPlanItem } from "../../model/HomePageData"
+import { IPlanItem } from "../../http/response/HomePageData"
 
 @Component
 export struct PlanList {

@@ -1,8 +1,8 @@
 import { ScrollContainer } from '../components/ScrollContainer';
 import { PADDING } from '../constants/Size';
-import { getHomeApiData } from '../http/HomeApi';
+import { getHomeApiData } from '../http/api/HomeApi';
 import { SwiperDataSource } from '../lazyds/home/SwiperDataSource';
-import { INavItem, IPlanItem, ITileItem } from '../model/HomePageData';
+import { INavItem, IPlanItem, ITileItem } from '../http/response/HomePageData';
 import { INavColor } from '../model/INavColor';
 import { getWindowTopHeight } from '../utils/SystemUtil';
 import { AdCard } from '../views/home/AdCard';
@@ -15,6 +15,10 @@ import TileList from '../views/home/TileList';
 
 /**
  * 首页 tab
+ *
+ * todo
+ * 1：从搜索房源返回状态栏问题
+ * 2：周边房源推荐上面背景不对
  */
 @Component
 export struct Home {

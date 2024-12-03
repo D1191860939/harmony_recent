@@ -1,5 +1,5 @@
 import { SwiperDataSource } from '../../lazyds/home/SwiperDataSource'
-import { IBannerData } from '../../model/HomePageData'
+import { IBannerData } from '../../http/response/HomePageData'
 
 @Component
 export struct SwiperLayout {

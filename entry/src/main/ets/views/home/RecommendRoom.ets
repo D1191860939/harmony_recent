@@ -1,6 +1,6 @@
 import { BORDER_RADIUS, PADDING } from '../../constants/Size'
-import { getRecommendRoomApiData } from '../../http/HomeApi'
-import { IRecommendItemTag, IRecommendRoomItemData } from '../../model/HomePageData'
+import { getRecommendRoomApiData } from '../../http/api/HomeApi'
+import { IRecommendItemTag, IRecommendRoomItemData } from '../../http/response/HomePageData'
 
 @Component
 export struct RecommendRoom {
