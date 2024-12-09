@@ -21,6 +21,12 @@ export class BaseDataSource<T> implements IDataSource {
     this.notifyDataAdd(this.dataArray.length - 1);
   }
 
+  public pushDataList(dataList: T[]): void {
+    dataList.forEach((data) => {
+      this.pushData(data)
+    })
+  }
+
   public setData(dataArray: T[]): void {
     this.dataArray = dataArray;
     this.notifyDataReload();

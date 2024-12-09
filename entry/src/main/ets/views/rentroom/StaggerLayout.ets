@@ -8,22 +8,73 @@ import { SearchHouseDataSource } from '../../lazyds/SearchHouseDataSource'
 @Component
 export struct StaggerLayout {
   @State dataSource: SearchHouseDataSource = new SearchHouseDataSource()
+  @State noMoreData: boolean = false
+  searchRequest = new SearchHouseRequest(1, 20)
 
   aboutToAppear(): void {
-    this.requestData()
+    this.requestData(true)
   }
 
-  async requestData() {
-    const filterRoomData = await getFilterRentRoom(new SearchHouseRequest(1, 20))
-    this.dataSource.setData(filterRoomData.records)
+  async requestData(isRefresh: boolean) {
+    try {
+      if (isRefresh) {
+        this.searchRequest.page = 1;
+      } else {
+        this.searchRequest.page++;
+      }
+      const filterRoomData = await getFilterRentRoom(this.searchRequest)
+      console.log("total: " + filterRoomData.total + ", totalCount = " + this.dataSource.totalCount())
+      if (isRefresh) {
+        this.dataSource.setData(filterRoomData.records)
+      } else {
+        this.dataSource.pushDataList(filterRoomData.records)
+      }
+      if (filterRoomData.total > this.dataSource.totalCount()) {
+        this.noMoreData = false
+      } else {
+        this.noMoreData = true
+      }
+    } catch (e) {
+      this.searchRequest.page--;
+    }
   }
 
   getActivityText(activity: ISearchHouseActivityData): string {
     return Reflect.get(activity, "#text")
   }
 
+  loadMore() {
+    if (this.noMoreData) {
+      return
+    }
+    this.requestData(false)
+  }
+
+  @Builder
+  footer() {
+    if (this.noMoreData) {
+      Text("没有更多数据")
+        .fontSize(12)
+        .fontColor($r("app.color.gray"))
+        .width("100%")
+        .height(20)
+        .textAlign(TextAlign.Center)
+    } else {
+      Row({ space: 5 }) {
+        LoadingProgress().width(20).height(20).color($r('app.color.gray'))
+        Text("加载数据中...").fontSize(12).fontColor($r("app.color.gray"))
+      }.width("100%")
+      .backgroundColor($r('app.color.white'))
+      .justifyContent(FlexAlign.Center)
+    }
+  }
+
   build() {
-    WaterFlow() {
+    WaterFlow({
+      footer: () => {
+        this.footer()
+      }
+    }) {
       FlowItem().width("100%")
         .height(8)
       FlowItem().width("100%")
@@ -160,6 +211,9 @@ export struct StaggerLayout {
 
       }, (item: ISearchHouseItemData) => item.id)
     }
+    .onReachEnd(() => {
+      this.loadMore()
+    })
     .width("100%")
     .height("100%")
     .columnsTemplate("1fr 1fr")
