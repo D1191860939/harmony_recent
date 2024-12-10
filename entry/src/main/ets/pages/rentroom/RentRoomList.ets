@@ -13,9 +13,12 @@ struct RentRoomList {
   build() {
     Column() {
       NavBar({ title: "房源推荐" })
-      SearchFilter()
-      StaggerLayout()
-        .layoutWeight(1)
+      Stack() {
+        StaggerLayout()
+          .position({ top: 44 })
+        SearchFilter()
+      }.layoutWeight(1)
+      .alignContent(Alignment.TopStart)
     }
     .padding({ top: getWindowTopHeight() })
     .width("100%")
